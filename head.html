@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
+    <style>
+        #hd{position: fixed; left: 0; right: 0; top: 0;
+            height: 80px; background-color: black; z-index: 1000;
+            transition: 0.5s;
+        }
+        #hd.up{transform: translateY(-100%);}
+        .wrap{
+            height: 5000px;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            var didScroll;  // didScroll - 스크롤을 움직일때만
+            var lastScrollTop = 0;
+            var delta = 5;
+            var navbarHeight = $('#hd').outerHeight();
+
+            $(window).scroll(function(event){
+            didScroll = true;
+            });
+
+            setInterval(function() //setinterval - 스크롤값을 0.25초단위로
+            { if (didScroll) {
+                    hasScrolled();
+                    didScroll = false;
+                }
+            }, 250);
+
+            function hasScrolled() {  // hasScrolled - 스크롤값을 저장시켜라. 근데 조그만 움직이면 그냥 하지마
+                var st = $(this).scrollTop();
+
+                if(Math.abs(lastScrollTop - st) <= delta)
+                    return;
+
+
+                if (st > lastScrollTop && st > navbarHeight){ 
+                    //Scroll Down
+                    $('#hd').addClass('up');
+                } else {
+                    //Scroll Up
+                    $('#hd').removeClass('up');
+                }    
+
+                lastScrollTop = st;
+            }
+        })
+    </script>
+    <title>Scroll_Event</title>
+</head>
+<body>
+    <header id="hd"></header>
+    <section class="wrap"></section>
+</body>
+</html>
